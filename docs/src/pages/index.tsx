@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "gatsby";
-import { Heading, Inline, Stack, Button } from "@kiwicom/orbit-components";
+import { Heading, Inline, Stack, Button, Text } from "@kiwicom/orbit-components";
 import { NewWindow, Search as SearchIcon } from "@kiwicom/orbit-components/icons";
 import { css } from "styled-components";
 import { WindowLocation } from "@reach/router";
@@ -31,9 +31,8 @@ import TwitterLogo from "../images/twitter.svg";
 import srcTequila from "../images/tequila.png";
 import { MAX_CONTENT_WIDTH } from "../consts";
 import ScreenReaderText from "../components/ScreenReaderText";
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { useKeyboard } = require("../services/KeyboardProvider");
+import { useKeyboard } from "../services/KeyboardProvider";
+import KeyboardShortcuts from "../components/KeyboardShortcuts";
 
 interface Props {
   location: WindowLocation;
@@ -45,7 +44,7 @@ function GatsbyLinkToButton({ href, ...props }: { href: string }) {
 }
 
 export default function Home({ location, path }: Props) {
-  const { isSearchOpened, setSearchOpened } = useKeyboard();
+  const [isSearchOpen, setSearchOpen] = useKeyboard();
 
   return (
     <Layout
@@ -108,11 +107,13 @@ export default function Home({ location, path }: Props) {
                 circled
                 iconLeft={<SearchIcon />}
                 type="primarySubtle"
-                onClick={() => setSearchOpened(true)}
+                onClick={() => setSearchOpen(true)}
               >
-                Search
+                <Stack align="center">
+                  <span>Search</span> <KeyboardShortcuts />
+                </Stack>
               </Button>
-              {isSearchOpened && <Search onClose={() => setSearchOpened(false)} />}
+              {isSearchOpen && <Search onClose={() => setSearchOpen(false)} />}
             </Inline>
           </div>
         </>
